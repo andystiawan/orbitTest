@@ -1,0 +1,57 @@
+{
+   "data": [
+      {
+         "id": 11,
+         "name": "Mel's Orbit",
+         "quota": {
+            "currentUsage": 30000,
+            "maxUsage": 80000,
+            "unit": "MB"
+         },
+         "validity": {
+            "value": 30,
+            "unit": "Days"
+         }
+      },
+      {
+         "id": 23,
+         "name": "Kitchen Modem",
+         "quota": {
+            "currentUsage": 55000,
+            "maxUsage": 60000,
+            "unit": "MB"
+         },
+         "validity": {
+            "value": 7,
+            "unit": "Days"
+         }
+      },
+      {
+         "id": 27,
+         "name": "Donski Pro",
+         "quota": {
+            "currentUsage": 25000,
+            "maxUsage": 45000,
+            "unit": "MB"
+         },
+         "validity": {
+            "value": 30,
+            "unit": "Days"
+         }
+      },
+      {
+         "id": 56,
+         "name": "Huawei B628",
+         "quota": {
+            "currentUsage": 40000,
+            "maxUsage": 55000,
+            "unit": "MB"
+         },
+         "validity": {
+            "value": 10,
+            "unit": "Days"
+         }
+      }
+   ],
+   "status": true
+}
