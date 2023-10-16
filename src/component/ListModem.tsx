@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -8,9 +9,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {DHeight, DWidth} from './Dimension';
-import {SortModem} from './Sort';
+
+import { DHeight, DWidth } from './Dimension';
+import { SortModem } from './Sort';
 
 const height: number = DHeight;
 const width: number = DWidth;
@@ -32,13 +33,13 @@ function currencyFormat(num: number) {
 }
 
 const filter = [
-  {value: '', label: 'Default   '},
-  {value: 'highestPrice', label: 'Highest Price'},
-  {value: 'lowestPrice', label: 'Lowest Price'},
-  {value: 'name', label: 'Name    '},
+  { value: '', label: 'Default   ' },
+  { value: 'highestPrice', label: 'Highest Price' },
+  { value: 'lowestPrice', label: 'Lowest Price' },
+  { value: 'name', label: 'Name    ' },
 ];
 
-function ListModem({data, dataFilter, checkout, stateFirst, reset}: list) {
+function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
   const initialState = {
     selectedSort: '',
     openFilter: false,
@@ -85,29 +86,47 @@ function ListModem({data, dataFilter, checkout, stateFirst, reset}: list) {
     return filter.find(item => item.value === state.selectedSort);
   };
 
-  const filterNonSelected = () => {
-    return filter.filter(item => item.value !== state.selectedSort);
-  };
+  const handleChangeTextInputCheckout = ({ item, index, event }: any) => {
+    checkout({ modem: item, type: '', index, value: event });
+    setstate(p => ({
+      ...p,
+      openFilter: false,
+    }));
+  }
+
+  const handleChangeButtonPlus = ({ item, index }: any) => {
+    checkout({ modem: item, type: '+', index });
+    setstate(p => ({
+      ...p,
+      openFilter: false,
+    }));
+  }
+
+  const handleChangeButtonMinus = ({ item, index }: any) => {
+    checkout({ modem: item, type: '-', index });
+    setstate(p => ({
+      ...p,
+      openFilter: false,
+    }));
+  }
+
 
   const listHeaderComponent = () => {
     return (
-      <View style={{alignItems: 'center', marginVertical: 10}}>
+      <View style={{ alignItems: 'center', marginVertical: 10 }}>
         <View style={styles.contentHeader}>
           <Image
             source={require('../assets/sort.png')}
-            style={{
-              resizeMode: 'contain',
-              width: '4%',
-              marginHorizontal: 5,
-            }}
+            resizeMode={'contain'}
+            style={styles.iconSort}
           />
-          <Text>Sort By:</Text>
+
+          <Text>
+            {'Sort By:'}
+          </Text>
+
           <View
-            style={{
-              flex: 1,
-              alignItems: 'flex-end',
-              paddingHorizontal: 5,
-            }}>
+            style={styles.sortContainer}>
             <TouchableOpacity
               onPress={() =>
                 setstate(p => ({
@@ -116,10 +135,14 @@ function ListModem({data, dataFilter, checkout, stateFirst, reset}: list) {
                 }))
               }
               style={styles.sort}>
-              <Text style={styles.textLabel}>{filterSelect()?.label}</Text>
+
+              <Text style={styles.textLabel}>
+                {filterSelect()?.label}
+              </Text>
+
               <Image
                 resizeMode="contain"
-                style={{width: '10%', height: '100%'}}
+                style={{ width: '10%', height: '100%' }}
                 source={require('../assets/arrow_bottom.png')}
               />
             </TouchableOpacity>
@@ -129,67 +152,50 @@ function ListModem({data, dataFilter, checkout, stateFirst, reset}: list) {
     );
   };
 
-  const renderItem: ListRenderItem<ItemType> = ({item, index}: any) => {
+  const renderItem: ListRenderItem<ItemType> = ({ item, index }: any) => {
+    const minStock = item?.stock <= item?.quantity
+    const maxStock = item?.quantity >= item?.stock
+
     return (
-      <View style={styles.item}>
-        <View style={{flex: 1}}>
-          <Text style={styles.textTitle}>{item.name}</Text>
+      <View style={styles.itemContainer}>
+        <View style={{ flex: 1 }}>
+
+          <Text style={styles.textTitle}>
+            {item.name}
+          </Text>
+
           <Text style={styles.textPrice}>
             {currencyFormat(item?.price || 0)}
           </Text>
+
         </View>
         <View
-          style={{
-            flexDirection: 'row',
-            flex: 0.8,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: '#F6F6F6',
-            borderRadius: 8,
-            paddingHorizontal: 10,
-            height: '95%',
-          }}>
+          style={styles.buttonContainer}>
           <TouchableOpacity
             disabled={item?.quantity < 1}
-            onPress={() => {
-              checkout({modem: item, type: '-', index});
-              setstate(p => ({
-                ...p,
-                openFilter: false,
-              }));
-            }}
+            onPress={() => handleChangeButtonMinus({ item, index })}
             style={{
               ...styles.minus,
               backgroundColor: item?.quantity > 0 ? '#3A4144' : '#CFCFCF',
             }}>
             <Text style={styles.minusText}>-</Text>
           </TouchableOpacity>
+
           <TextInput
-            style={{flex: 1, textAlign: 'center'}}
+            style={{ flex: 1, textAlign: 'center' }}
             defaultValue="0"
             value={item?.quantity?.toString()}
-            onChangeText={e => {
-              checkout({modem: item, type: '', index, value: e});
-              setstate(p => ({
-                ...p,
-                openFilter: false,
-              }));
-            }}
+            onChangeText={event => handleChangeTextInputCheckout({ item, index, event })}
             keyboardType="numeric"
           />
+
           <TouchableOpacity
-            disabled={item?.quantity >= item?.stock}
-            onPress={() => {
-              checkout({modem: item, type: '+', index});
-              setstate(p => ({
-                ...p,
-                openFilter: false,
-              }));
-            }}
+            disabled={maxStock}
+            onPress={() => handleChangeButtonPlus({ item, index })}
             style={{
               ...styles.plus,
               backgroundColor:
-                item?.stock <= item?.quantity ? '#CFCFCF' : '#3A4144',
+                minStock ? '#CFCFCF' : '#3A4144',
             }}>
             <Text style={styles.plusText}>+</Text>
           </TouchableOpacity>
@@ -202,7 +208,7 @@ function ListModem({data, dataFilter, checkout, stateFirst, reset}: list) {
     <View style={styles.container}>
       <FlatList
         onRefresh={() => {
-          setstate(p => ({...p, refresh: true}));
+          setstate(p => ({ ...p, refresh: true }));
           reset();
           setTimeout(() => {
             setstate(p => ({
@@ -249,6 +255,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: 'white',
   },
+  iconSort: {
+    width: '4%',
+    marginHorizontal: 5,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -287,13 +297,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  item: {
+  itemContainer: {
     margin: 10,
     flexDirection: 'row',
   },
-  textTitle: {fontWeight: '900', color: '#3A4144'},
-  textPrice: {fontWeight: '700', color: '#7D8285'},
-  textSort: {fontWeight: '400', color: '#262627', marginVertical: 10},
+  textTitle: { fontWeight: '900', color: '#3A4144' },
+  textPrice: { fontWeight: '700', color: '#7D8285' },
+  textSort: { fontWeight: '400', color: '#262627', marginVertical: 10 },
   btnFooter: {
     backgroundColor: 'red',
     height: height * 0.05,
@@ -334,5 +344,20 @@ const styles = StyleSheet.create({
     padding: 0,
     lineHeight: height * 0.05,
   },
-  textLabel: {fontWeight: 'bold', alignSelf: 'center', color: 'black'},
+  textLabel: { fontWeight: 'bold', alignSelf: 'center', color: 'black' },
+  buttonContainer: {
+    flexDirection: 'row',
+    flex: 0.8,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#F6F6F6',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    height: '95%',
+  },
+  sortContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    paddingHorizontal: 5,
+  }
 });

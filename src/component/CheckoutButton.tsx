@@ -1,34 +1,51 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {DHeight, DWidth} from './Dimension';
+import { DHeight, DWidth } from './Dimension';
 
 const height: number = DHeight;
 const width: number = DWidth;
+
 function currencyFormat(num: number) {
   return 'Rp. ' + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
 }
 
 const CheckoutButton = (props: any) => {
+  const { total, reset, feedBack } = props
   return (
     <View style={styles.container}>
       <View style={styles.price}>
-        <Text style={styles.text}>Total</Text>
-        <Text style={styles.text}>{currencyFormat(props?.total) || ''}</Text>
+
+        <Text style={styles.text}>
+          {'Total'}
+        </Text>
+
+        <Text style={styles.text}>
+          {currencyFormat(total)}
+        </Text>
+
       </View>
       <TouchableOpacity
-        disabled={props?.total < 1}
-        onPress={() => props.feedBack()}
+        disabled={total < 1}
+        onPress={feedBack}
         style={{
           ...styles.buttonCheckout,
-          backgroundColor: props?.total > 1 ? '#3A4144' : '#CFCFCF',
+          backgroundColor: total > 1 ? '#3A4144' : '#CFCFCF',
         }}>
-        <Text style={styles.textWhite}>Chekcout</Text>
+
+        <Text style={styles.textWhite}>
+          {'Chekcout'}
+        </Text>
+
       </TouchableOpacity>
-      {props?.total > 1 && (
+      {total > 1 && (
         <TouchableOpacity
-          onPress={() => props?.reset()}
+          onPress={reset}
           style={styles.buttonReset}>
-          <Text style={styles.text}>Reset</Text>
+
+          <Text style={styles.text}>
+            {'Reset'}
+          </Text>
+
         </TouchableOpacity>
       )}
     </View>
