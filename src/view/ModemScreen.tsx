@@ -8,7 +8,7 @@ import CheckoutButton from '../component/CheckoutButton';
 import Headers from '../component/Headers';
 import ListModem from '../component/ListModem';
 import { LoadModem } from '../component/Loading';
-import { BtmCloseCheckout } from '../component/PopUp';
+import { CheckoutSuccessModal } from '../component/PopUp';
 
 const ModemScreen = () => {
 
@@ -65,57 +65,55 @@ const ModemScreen = () => {
 
 
       if (typePlus) {
-
          const qty = quantity ? quantity + 1 : 1;
-         data[value.index] = result(qty);
 
+         data[value.index] = result(qty);
       } else if (typeMinus) {
-
          const qty = quantity ? quantity - 1 : 0;
+
          data[value.index] = result(qty);
-
       } else {
-
          const qty = Number(value?.value || 0);
          const cek = qty >= stock ? stock : qty;
-         data[value.index] = result(cek);
 
+         data[value.index] = result(cek);
       }
 
       const findSubtotal = data.filter((x: any) => x?.subtotal);
       const cektotal = calculateTotal(findSubtotal);
-      setState(p => ({
-         ...p,
+
+      setState({
+         ...state,
          modemListData: data,
          totalCheckout: cektotal,
          isCheckout: false,
-      }));
+      });
    };
+
+   const onChangeState = (name: string, value: any) => {
+      setState({ ...state, [name]: value })
+   }
 
    const calculateTotal = (items: any) => {
       let total = 0;
+
       for (const item of items) {
          total += item.subtotal;
       }
       return total;
    };
 
-   const feedbackCheckout = () => {
-      setState(p => ({
-         ...p,
-         isCheckout: true,
-      }));
+   const onCheckout = () => {
+      onChangeState('isCheckout', true)
    };
 
    const closeCheckout = () => {
-      setState(p => ({
-         ...p,
-         isCheckout: false,
-      }));
+      onChangeState('isCheckout', false)
    };
 
    return (
       <View style={{ flex: 1 }}>
+
          <Headers title="Modem List" name="modemListData" totalCheckoutmary={modemListData?.length} />
 
          {!isLoading ? (
@@ -131,7 +129,7 @@ const ModemScreen = () => {
                <CheckoutButton
                   total={totalCheckout}
                   reset={() => fetchData()}
-                  feedBack={() => feedbackCheckout()}
+                  onCheckout={() => onCheckout()}
                />
 
             </View>
@@ -139,12 +137,12 @@ const ModemScreen = () => {
             <LoadModem />
          )}
 
-         <BtmCloseCheckout
+         <CheckoutSuccessModal
             open={isCheckout}
             onClose={closeCheckout}
-            sum={totalCheckout}
+            total={totalCheckout}
             modemTotal={modemListData.filter((x: any) => x?.subtotal).length}
-            afterCheckout={closeCheckout}
+            onCheckoutButton={closeCheckout}
          />
       </View>
    );
