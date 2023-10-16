@@ -1,5 +1,5 @@
-import {Modal, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import {DHeight, DWidth} from './Dimension';
+import { Modal, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { DHeight, DWidth } from './Dimension';
 
 const height: number = DHeight;
 const width: number = DWidth;
@@ -34,15 +34,17 @@ export const SortModem = ({
                 onPress={() => onChangeSort(item.value)}
                 style={[
                   styles.labelFilter,
-                  index == data.length - 1 && {borderBottomWidth: 0},
+                  index == data.length - 1 && { borderBottomWidth: 0 },
                 ]}>
+
                 <Text
                   style={[
                     styles.textSort,
-                    item.value == selected && {fontWeight: '900'},
+                    item.value == selected && { fontWeight: '900' },
                   ]}>
                   {item.label}
                 </Text>
+
               </TouchableOpacity>
             );
           })}
@@ -82,12 +84,12 @@ export const SortDevice = ({
                 onPress={() => onChangeSort(item.value)}
                 style={[
                   styles.labelFilter2,
-                  index == data.length - 1 && {borderBottomWidth: 0},
+                  index == data.length - 1 && { borderBottomWidth: 0 },
                 ]}>
                 <Text
                   style={[
                     styles.textSort,
-                    item.value == sortSelect && {fontWeight: '900'},
+                    item.value == sortSelect && { fontWeight: '900' },
                   ]}>
                   {item.label}
                 </Text>
@@ -153,6 +155,6 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: 'row',
   },
-  textSort: {fontWeight: '400', color: '#262627', marginVertical: 10},
-  textTitle: {fontWeight: '900', color: '#3A4144'},
+  textSort: { fontWeight: '400', color: '#262627', marginVertical: 10 },
+  textTitle: { fontWeight: '900', color: '#3A4144' },
 });

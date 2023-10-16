@@ -20,7 +20,6 @@ type list = {
   data: any[];
   dataFilter: (data: any[]) => void;
   checkout: (data: any) => void;
-  stateFirst: any;
   reset: () => void;
 };
 
@@ -39,20 +38,15 @@ const filter = [
   { value: 'name', label: 'Name    ' },
 ];
 
-function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
+function ListModem({ data, dataFilter, checkout, reset }: list) {
+
   const initialState = {
-    selectedSort: '',
+    selectedSortData: '',
     openFilter: false,
     refresh: false,
   };
   const [state, setstate] = useState(initialState);
 
-  useEffect(() => {
-    setstate(p => ({
-      ...p,
-      openFilter: stateFirst.checkout && false,
-    }));
-  }, [stateFirst.checkout]);
 
   const handleSortChange = (sortOption: string) => {
     let sortedModems: any = [...data];
@@ -74,7 +68,7 @@ function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
 
     setstate(p => ({
       ...p,
-      selectedSort: sortOption,
+      selectedSortData: sortOption,
       openFilter: !state.openFilter,
     }));
     if (sortOption !== '') {
@@ -83,7 +77,7 @@ function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
   };
 
   const filterSelect = () => {
-    return filter.find(item => item.value === state.selectedSort);
+    return filter.find(item => item.value === state.selectedSortData);
   };
 
   const handleChangeTextInputCheckout = ({ item, index, event }: any) => {
@@ -108,6 +102,14 @@ function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
       ...p,
       openFilter: false,
     }));
+  }
+
+  const onRefreshListModem = () => {
+    setstate(p => ({ ...p, refresh: true }));
+    reset();
+    setTimeout(() => {
+      setstate(initialState);
+    }, 1000);
   }
 
 
@@ -178,7 +180,11 @@ function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
               ...styles.minus,
               backgroundColor: item?.quantity > 0 ? '#3A4144' : '#CFCFCF',
             }}>
-            <Text style={styles.minusText}>-</Text>
+
+            <Text style={styles.minusText}>
+              {'-'}
+            </Text>
+
           </TouchableOpacity>
 
           <TextInput
@@ -197,7 +203,10 @@ function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
               backgroundColor:
                 minStock ? '#CFCFCF' : '#3A4144',
             }}>
-            <Text style={styles.plusText}>+</Text>
+            <Text style={styles.plusText}>
+              {'+'}
+            </Text>
+
           </TouchableOpacity>
         </View>
       </View>
@@ -207,18 +216,7 @@ function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
   return (
     <View style={styles.container}>
       <FlatList
-        onRefresh={() => {
-          setstate(p => ({ ...p, refresh: true }));
-          reset();
-          setTimeout(() => {
-            setstate(p => ({
-              ...p,
-              refresh: false,
-              selectedSort: '',
-              openFilter: false,
-            }));
-          }, 1000);
-        }}
+        onRefresh={onRefreshListModem}
         refreshing={state.refresh}
         ListHeaderComponent={listHeaderComponent}
         data={data}
@@ -236,7 +234,7 @@ function ListModem({ data, dataFilter, checkout, stateFirst, reset }: list) {
           }))
         }
         onChangeSort={handleSortChange}
-        selected={state.selectedSort}
+        selected={state.selectedSortData}
       />
     </View>
   );

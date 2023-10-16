@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 import { getModemList } from '../network/service/serviceModem';
@@ -8,12 +8,9 @@ import CheckoutButton from '../component/CheckoutButton';
 import Headers from '../component/Headers';
 import ListModem from '../component/ListModem';
 import { LoadModem } from '../component/Loading';
-import { DWidth } from '../component/Dimension';
 import { BtmCloseCheckout } from '../component/PopUp';
 
-const width: number = DWidth;
-
-const ModemScreen = ({ navigation }: any) => {
+const ModemScreen = () => {
 
    const initialState = {
       modemListData: [],
@@ -29,10 +26,9 @@ const ModemScreen = ({ navigation }: any) => {
    const isFocused = useIsFocused();
 
    const fetchData = async () => {
-      setState({ isLoading: true, totalCheckout: 0, isCheckout: false, modemListData: [] });
-
-      const res = await getModemList().then(res => {
-         const result = JSON.parse(res).data;
+      setState({ ...initialState, isLoading: true });
+      const res = await getModemList().then(async res => {
+         const result = await JSON.parse(res).data;
          return result.map((item: any) => {
             return {
                id: item?.id,
@@ -44,53 +40,46 @@ const ModemScreen = ({ navigation }: any) => {
       });
 
       setTimeout(() => {
-         setState(p => ({ ...p, isLoading: false, Data: res }));
+         setState(p => ({ ...p, isLoading: false, modemListData: res }));
       }, 3000);
    };
 
    useEffect(() => {
-
-      if (isFocused) {
-         fetchData();
-      }
-
+      isFocused && fetchData();
    }, [isFocused]);
+
 
    const calculated = (value: any) => {
       let data: any = [...modemListData];
 
-      const { stock = 0, price = 0 } = value.modemListData
+      const { stock = 0, price = 0, quantity } = value?.modem
 
-      const quantity = value.Data?.quantity
       const typePlus = value.type === '+'
       const typeMinus = value.type === '-'
 
+      const result = (qty: number) => ({
+         ...value.modem,
+         quantity: qty,
+         subtotal: price * qty,
+      })
+
 
       if (typePlus) {
+
          const qty = quantity ? quantity + 1 : 1;
-         const result = {
-            ...value.modemListData,
-            quantity: qty,
-            subtotal: price * qty,
-         };
-         data[value.index] = result;
+         data[value.index] = result(qty);
+
       } else if (typeMinus) {
+
          const qty = quantity ? quantity - 1 : 0;
-         const result = {
-            ...value.modemListData,
-            quantity: qty,
-            subtotal: price * qty,
-         };
-         data[value.index] = result;
+         data[value.index] = result(qty);
+
       } else {
-         const qty = value.value;
-         const cekQty = qty >= stock ? stock : qty;
-         const result = {
-            ...value.modemListData,
-            quantity: Number(cekQty) || 0,
-            subtotal: price * Number(cekQty) || 0,
-         };
-         data[value.index] = result;
+
+         const qty = Number(value?.value || 0);
+         const cek = qty >= stock ? stock : qty;
+         data[value.index] = result(cek);
+
       }
 
       const findSubtotal = data.filter((x: any) => x?.subtotal);
@@ -136,7 +125,6 @@ const ModemScreen = ({ navigation }: any) => {
                   checkout={value => calculated(value)}
                   dataFilter={(data: any[]) => setState((p: any) => ({ ...p, modemListData: data }))}
                   data={modemListData}
-                  stateFirst={state}
                   reset={() => fetchData()}
                />
 
