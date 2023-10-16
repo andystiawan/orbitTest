@@ -13,15 +13,21 @@ import { CheckoutSuccessModal } from '../component/PopUp';
 const ModemScreen = () => {
 
    const initialState = {
-      modemListData: [],
-      totalCheckout: 0,
       isLoading: false,
       isCheckout: false,
+      modemListData: [],
+      totalCheckout: 0,
+
    };
 
    const [state, setState] = useState(initialState);
 
-   const { modemListData, totalCheckout, isLoading, isCheckout } = state
+   const {
+      isLoading,
+      isCheckout,
+      modemListData,
+      totalCheckout,
+   } = state
 
    const isFocused = useIsFocused();
 
