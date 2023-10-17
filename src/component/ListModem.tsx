@@ -77,7 +77,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
    };
 
    const filterSelect = () => {
-      return filter.find(item => item.value === state.selectedSortData);
+      return filter.find(item => item?.value === state.selectedSortData);
    };
 
    const handleChangeTextInputCheckout = ({ item, index, event }: any) => {
@@ -140,26 +140,27 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
       const maxStock = item?.quantity >= item?.stock
 
       return (
-         <View style={styles.itemContainer}>
+         <View style={styles.itemModemContainer}>
             <View style={{ flex: 1 }}>
-               <Text style={styles.textTitle}>
-                  {item.name}
+               <Text style={styles.itemModemTextTitle}>
+                  {item?.name}
                </Text>
-               <Text style={styles.textPrice}>
+
+               <Text style={styles.itemModemTextPrice}>
                   {currencyFormat(item?.price || 0)}
                </Text>
             </View>
 
-            <View style={styles.buttonContainer}>
+            <View style={styles.itemModemButtonContainer}>
                <TouchableOpacity
                   disabled={item?.quantity < 1}
                   onPress={() => handleChangeButtonMinus({ item, index })}
                   style={{
-                     ...styles.minus,
+                     ...styles.itemModemBtnMinus,
                      backgroundColor: item?.quantity > 0 ? '#3A4144' : '#CFCFCF',
                   }}
                >
-                  <Text style={styles.minusText}>
+                  <Text style={styles.itemModemTxtMinus}>
                      {'-'}
                   </Text>
                </TouchableOpacity>
@@ -176,11 +177,11 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
                   disabled={maxStock}
                   onPress={() => handleChangeButtonPlus({ item, index })}
                   style={{
-                     ...styles.plus,
+                     ...styles.itemModemBtnPlus,
                      backgroundColor: minStock ? '#CFCFCF' : '#3A4144',
                   }}
                >
-                  <Text style={styles.plusText}>
+                  <Text style={styles.itemModemTxtPlus}>
                      {'+'}
                   </Text>
                </TouchableOpacity>
@@ -199,6 +200,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
          />
+
          <SortModem
             data={filter}
             open={state.isSortedOpen}
@@ -271,55 +273,19 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       width: '50%',
    },
-   itemContainer: {
+   itemModemContainer: {
       margin: 10,
       flexDirection: 'row',
    },
-   textTitle: { fontWeight: '900', color: '#3A4144' },
-   textPrice: { fontWeight: '700', color: '#7D8285' },
-   textSort: { fontWeight: '400', color: '#262627', marginVertical: 10 },
-   btnFooter: {
-      backgroundColor: 'red',
-      height: height * 0.05,
-      width: '90%',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 16,
+   itemModemTextTitle: {
+      fontWeight: '900',
+      color: '#3A4144'
    },
-   plus: {
-      borderRadius: 4,
-      backgroundColor: '#3A4144',
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingHorizontal: 10,
+   itemModemTextPrice: {
+      fontWeight: '700',
+      color: '#7D8285'
    },
-   plusText: {
-      fontWeight: 'bold',
-      color: 'white',
-      textAlign: 'center',
-      fontSize: height * 0.045,
-      margin: 0,
-      padding: 0,
-      lineHeight: height * 0.05,
-   },
-   minus: {
-      borderRadius: 4,
-      backgroundColor: '#CFCFCF',
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingHorizontal: 10,
-   },
-   minusText: {
-      fontWeight: 'bold',
-      color: 'white',
-      textAlign: 'center',
-      fontSize: height * 0.045,
-      margin: 0,
-      padding: 0,
-      lineHeight: height * 0.05,
-   },
-   textLabel: { fontWeight: 'bold', alignSelf: 'center', color: 'black' },
-   buttonContainer: {
+   itemModemButtonContainer: {
       flexDirection: 'row',
       flex: 0.8,
       justifyContent: 'space-between',
@@ -328,5 +294,37 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       paddingHorizontal: 10,
       height: '95%',
-   }
+   },
+   itemModemBtnPlus: {
+      borderRadius: 4,
+      backgroundColor: '#3A4144',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 10,
+   },
+   itemModemTxtPlus: {
+      fontWeight: 'bold',
+      color: 'white',
+      textAlign: 'center',
+      fontSize: height * 0.045,
+      margin: 0,
+      padding: 0,
+      lineHeight: height * 0.05,
+   },
+   itemModemBtnMinus: {
+      borderRadius: 4,
+      backgroundColor: '#CFCFCF',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 10,
+   },
+   itemModemTxtMinus: {
+      fontWeight: 'bold',
+      color: 'white',
+      textAlign: 'center',
+      fontSize: height * 0.045,
+      margin: 0,
+      padding: 0,
+      lineHeight: height * 0.05,
+   },
 });
