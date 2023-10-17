@@ -14,9 +14,7 @@ const CheckoutButton = (props: any) => {
    const { total, reset, onCheckout } = props
    return (
       <View style={styles.btnCheckoutContainer}>
-
          <View style={styles.btnCheckoutTotalContainer}>
-
             <Text style={styles.btnCheckoutTotalTitle}>
                {'Total'}
             </Text>
@@ -24,7 +22,6 @@ const CheckoutButton = (props: any) => {
             <Text style={styles.btnCheckoutTotalPrice}>
                {currencyFormat(total)}
             </Text>
-
          </View>
 
          <TouchableOpacity
@@ -35,11 +32,9 @@ const CheckoutButton = (props: any) => {
                backgroundColor: total > 1 ? '#3A4144' : '#CFCFCF',
             }}
          >
-
             <Text style={styles.btnCheckoutOnClickText}>
                {'Chekcout'}
             </Text>
-
          </TouchableOpacity>
 
          {total > 1 && (
@@ -47,14 +42,11 @@ const CheckoutButton = (props: any) => {
                onPress={() => reset()}
                style={styles.btnCheckoutResetButton}
             >
-
                <Text style={styles.btnCheckoutResetText}>
                   {'Reset'}
                </Text>
-
             </TouchableOpacity>
          )}
-
       </View>
    );
 };

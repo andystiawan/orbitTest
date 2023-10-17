@@ -23,8 +23,8 @@ const Headers = (props: any) => {
           alignItems: 'flex-start',
           padding: 15,
         },
-      ]}>
-
+      ]}
+    >
       {isDevice && (
         <View style={styles.headerIconDeviceContainer}>
           <Image style={styles.headerIconDevice} source={icon_mobile} />
@@ -40,8 +40,12 @@ const Headers = (props: any) => {
       />
 
       <View style={{ flex: 1 }}>
-
-        <Text style={[styles.headerTextTitle, isDevice && { fontSize: 20 }]}>
+        <Text
+          style={[
+            styles.headerTextTitle,
+            isDevice && { fontSize: 20 }
+          ]}
+        >
           {title}
         </Text>
 
@@ -50,9 +54,7 @@ const Headers = (props: any) => {
             {total} {name}
           </Text>
         )}
-
       </View>
-
     </View>
   );
 };

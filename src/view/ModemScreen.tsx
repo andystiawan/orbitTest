@@ -20,7 +20,7 @@ const ModemScreen = () => {
 
    };
 
-   const [state, setState] = useState(initialState);
+   const [state, setState] = useState<any>(initialState);
 
    const {
       isLoading,
@@ -46,7 +46,7 @@ const ModemScreen = () => {
       });
 
       setTimeout(() => {
-         setState(p => ({ ...p, isLoading: false, modemListData: res }));
+         setState({ ...state, isLoading: false, modemListData: res });
       }, 3000);
    };
 
@@ -119,15 +119,17 @@ const ModemScreen = () => {
 
    return (
       <View style={{ flex: 1 }}>
-
-         <Headers title="Modem List" name="modemListData" totalCheckoutmary={modemListData?.length} />
+         <Headers
+            title="Modem List"
+            name="modemListData"
+            totalCheckoutmary={modemListData?.length}
+         />
 
          {!isLoading ? (
             <View style={{ flex: 1 }}>
-
                <ListModem
                   checkout={value => calculated(value)}
-                  dataFilter={(data: any[]) => setState((p: any) => ({ ...p, modemListData: data }))}
+                  dataFilter={(data: any[]) => setState({ ...state, modemListData: data })}
                   data={modemListData}
                   reset={() => fetchData()}
                />
@@ -137,7 +139,6 @@ const ModemScreen = () => {
                   reset={() => fetchData()}
                   onCheckout={() => onCheckout()}
                />
-
             </View>
          ) : (
             <LoadModem />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
    FlatList,
    Image,
@@ -10,7 +10,7 @@ import {
    View,
 } from 'react-native';
 
-import { DHeight, DWidth } from './Dimension';
+import { DHeight } from './Dimension';
 import { SortModem } from './Sort';
 
 const height: number = DHeight;
@@ -96,7 +96,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
    }
 
    const onRefreshListModem = () => {
-      setstate(p => ({ ...p, refresh: true }));
+      setstate({ ...state, refresh: true });
       reset();
       setTimeout(() => {
          setstate(initialState);
@@ -108,36 +108,28 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
       return (
          <View style={{ alignItems: 'center', marginVertical: 10 }}>
             <View style={styles.listHeaderContainer}>
-
                <Image
                   source={require('../assets/sort.png')}
                   resizeMode={'contain'}
                   style={styles.listHeaderIconSort}
                />
-
                <Text>
                   {'Sort By:'}
                </Text>
-
                <View style={styles.listHeaderSortContainer}>
-
                   <TouchableOpacity
                      onPress={() => setstate({ ...state, isSortedOpen: !state.isSortedOpen })}
                      style={styles.listHeaderSortButton}
                   >
-
                      <Text style={styles.listHeaderSortLable}>
                         {filterSelect()?.label}
                      </Text>
-
                      <Image
                         style={{ width: '20%', height: '100%' }}
                         source={require('../assets/arrow_bottom.png')}
                      />
-
                   </TouchableOpacity>
                </View>
-
             </View>
          </View>
       );
@@ -149,33 +141,27 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
 
       return (
          <View style={styles.itemContainer}>
-
             <View style={{ flex: 1 }}>
-
                <Text style={styles.textTitle}>
                   {item.name}
                </Text>
-
                <Text style={styles.textPrice}>
                   {currencyFormat(item?.price || 0)}
                </Text>
-
             </View>
 
             <View style={styles.buttonContainer}>
-
                <TouchableOpacity
                   disabled={item?.quantity < 1}
                   onPress={() => handleChangeButtonMinus({ item, index })}
                   style={{
                      ...styles.minus,
                      backgroundColor: item?.quantity > 0 ? '#3A4144' : '#CFCFCF',
-                  }}>
-
+                  }}
+               >
                   <Text style={styles.minusText}>
                      {'-'}
                   </Text>
-
                </TouchableOpacity>
 
                <TextInput
@@ -192,11 +178,11 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
                   style={{
                      ...styles.plus,
                      backgroundColor: minStock ? '#CFCFCF' : '#3A4144',
-                  }}>
+                  }}
+               >
                   <Text style={styles.plusText}>
                      {'+'}
                   </Text>
-
                </TouchableOpacity>
             </View>
          </View>
@@ -213,7 +199,6 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
          />
-
          <SortModem
             data={filter}
             open={state.isSortedOpen}

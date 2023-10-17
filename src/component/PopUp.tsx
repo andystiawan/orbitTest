@@ -27,13 +27,14 @@ export const CheckoutSuccessModal = ({
          animationType="slide"
          transparent={true}
          visible={open}
-         onRequestClose={onClose}>
+         onRequestClose={onClose}
+      >
          <View style={styles.modalCheckoutContainer}>
             <View style={styles.modalCheckoutContent}>
-               <Text
-                  style={styles.checkoutTitleText}>
-                  Success!
+               <Text style={styles.checkoutTitleText}>
+                  {'Success!'}
                </Text>
+
                <Text style={styles.checkoutMessageText}>
                   {' You have successfully purchase '}
                   {modemTotal}
@@ -46,13 +47,10 @@ export const CheckoutSuccessModal = ({
                </Text>
 
                <TouchableOpacity onPress={onCheckoutButton} style={styles.checkoutCloseButton}>
-
                   <Text style={styles.checkoutCloseButtonText}>
                      {'Close'}
                   </Text>
-
                </TouchableOpacity>
-
             </View>
          </View>
       </Modal>
