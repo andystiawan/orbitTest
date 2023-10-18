@@ -58,10 +58,10 @@ const ModemScreen = () => {
    const calculated = (value: any) => {
       let data: any = [...modemListData];
 
-      const { stock = 0, price = 0, quantity } = value?.modem
+      const { stock = 0, price = 0, quantity } = value?.modem;
 
-      const typePlus = value.type === '+'
-      const typeMinus = value.type === '-'
+      const isAddition = value.type === '+';
+      const isSubtraction = value.type === '-';
 
       const result = (qty: number) => ({
          ...value.modem,
@@ -70,11 +70,11 @@ const ModemScreen = () => {
       })
 
 
-      if (typePlus) {
+      if (isAddition) {
          const qty = quantity ? quantity + 1 : 1;
 
          data[value.index] = result(qty);
-      } else if (typeMinus) {
+      } else if (isSubtraction) {
          const qty = quantity ? quantity - 1 : 0;
 
          data[value.index] = result(qty);
@@ -85,13 +85,13 @@ const ModemScreen = () => {
          data[value.index] = result(cek);
       }
 
-      const findSubtotal = data.filter((x: any) => x?.subtotal);
-      const cektotal = calculateTotal(findSubtotal);
+      const subtotal = data.filter((item: any) => item?.subtotal);
+      const total = _handlerCalculateTotal(subtotal);
 
       setState({
          ...state,
          modemListData: data,
-         totalCheckout: cektotal,
+         totalCheckout: total,
          isCheckout: false,
       });
    };
@@ -100,7 +100,7 @@ const ModemScreen = () => {
       setState({ ...state, [name]: value })
    }
 
-   const calculateTotal = (items: any) => {
+   const _handlerCalculateTotal = (items: any) => {
       let total = 0;
 
       for (const item of items) {
