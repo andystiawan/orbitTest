@@ -31,7 +31,7 @@ const ModemScreen = () => {
 
    const isFocused = useIsFocused();
 
-   const fetchData = async () => {
+   const _handlerGetData = async () => {
       setState({ ...initialState, isLoading: true });
       const res = await getModemList().then(async res => {
          const result = await JSON.parse(res).data;
@@ -51,7 +51,7 @@ const ModemScreen = () => {
    };
 
    useEffect(() => {
-      isFocused && fetchData();
+      isFocused && _handlerGetData();
    }, [isFocused]);
 
 
@@ -131,12 +131,12 @@ const ModemScreen = () => {
                   checkout={value => calculated(value)}
                   dataFilter={(data: any[]) => setState({ ...state, modemListData: data })}
                   data={modemListData}
-                  reset={() => fetchData()}
+                  reset={() => _handlerGetData()}
                />
 
                <CheckoutButton
                   total={totalCheckout}
-                  reset={() => fetchData()}
+                  reset={() => _handlerGetData()}
                   onCheckout={() => onCheckout()}
                />
             </View>
