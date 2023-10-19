@@ -10,7 +10,7 @@ import ListModem from '../component/ListModem';
 import { LoadModem } from '../component/Loading';
 import { CheckoutSuccessModal } from '../component/PopUp';
 
-const ModemScreen = () => {
+const ModemScreen = ({ navigation }: any) => {
 
    const initialState = {
       isLoading: false,
