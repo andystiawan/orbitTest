@@ -1,7 +1,6 @@
-import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react-native';
+import { useState, useEffect } from "react";
+import { render, fireEvent, cleanup, waitFor, screen } from '@testing-library/react-native';
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
 
 import ModemScreen from '../src/view/ModemScreen';
 
@@ -14,8 +13,14 @@ jest.mock('@react-navigation/native', () => {
 // Clean up the DOM after each test
 afterEach(cleanup);
 
-describe('ModemScreen Component', () => {
+describe('ModemScreen', () => {
     it('renders correctly', () => {
-        renderer.create(<ModemScreen />);
+        render(<ModemScreen />);
     });
+
+    it('call function by Text', () => {
+        render(<ModemScreen />);
+        fireEvent.press(screen.getByText('Checkout'));
+    });
+
 });

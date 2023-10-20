@@ -85,13 +85,8 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
       setstate({ ...state, isSortedOpen: false });
    }
 
-   const handleChangeButtonPlus = ({ item, index }: any) => {
-      checkout({ modem: item, type: '+', index });
-      setstate({ ...state, isSortedOpen: false });
-   }
-
-   const handleChangeButtonMinus = ({ item, index }: any) => {
-      checkout({ modem: item, type: '-', index });
+   const handleChangeButton = ({ item, index, type }: any) => {
+      checkout({ modem: item, type, index });
       setstate({ ...state, isSortedOpen: false });
    }
 
@@ -118,6 +113,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
                </Text>
                <View style={styles.listHeaderSortContainer}>
                   <TouchableOpacity
+                     testID='select-sort'
                      onPress={() => setstate({ ...state, isSortedOpen: !state.isSortedOpen })}
                      style={styles.listHeaderSortButton}
                   >
@@ -154,7 +150,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
             <View style={styles.itemModemButtonContainer}>
                <TouchableOpacity
                   disabled={item?.quantity < 1}
-                  onPress={() => handleChangeButtonMinus({ item, index })}
+                  onPress={() => handleChangeButton({ item, index, type: '-' })}
                   style={{
                      ...styles.itemModemBtnMinus,
                      backgroundColor: item?.quantity > 0 ? '#3A4144' : '#CFCFCF',
@@ -167,6 +163,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
 
                <TextInput
                   style={{ flex: 1, textAlign: 'center' }}
+                  testID='input-quantity'
                   defaultValue="0"
                   value={item?.quantity?.toString()}
                   onChangeText={event => handleChangeTextInputCheckout({ item, index, event })}
@@ -175,7 +172,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
 
                <TouchableOpacity
                   disabled={maxStock}
-                  onPress={() => handleChangeButtonPlus({ item, index })}
+                  onPress={() => handleChangeButton({ item, index, type: '+' })}
                   style={{
                      ...styles.itemModemBtnPlus,
                      backgroundColor: minStock ? '#CFCFCF' : '#3A4144',
@@ -193,6 +190,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
    return (
       <View style={styles.container}>
          <FlatList
+            testID='list-modem'
             onRefresh={onRefreshListModem}
             refreshing={state.refresh}
             ListHeaderComponent={listHeaderComponent}

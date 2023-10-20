@@ -33,7 +33,7 @@ const CheckoutButton = (props: any) => {
             }}
          >
             <Text style={styles.btnCheckoutOnClickText}>
-               {'Chekcout'}
+               {'Checkout'}
             </Text>
          </TouchableOpacity>
 
