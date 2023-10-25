@@ -33,21 +33,22 @@ const ModemScreen = ({ navigation }: any) => {
 
    const _handlerGetData = async () => {
       setState({ ...initialState, isLoading: true });
-      const res = await getModemList().then(async res => {
-         const result = await JSON.parse(res).data;
-         return result.map((item: any) => {
-            return {
-               id: item?.id,
-               stock: item?.Stock,
-               name: item?.Name,
-               price: item?.Price,
-            };
-         });
-      });
+      try {
+         const res = await getModemList();
+         const result = JSON.parse(res).data;
 
-      setTimeout(() => {
-         setState({ ...state, isLoading: false, modemListData: res });
-      }, 3000);
+         const mappedData = result.map((item: any) => ({
+            id: item?.id,
+            stock: item?.Stock,
+            name: item?.Name,
+            price: item?.Price,
+         }));
+         setTimeout(() => {
+            setState({ ...state, isLoading: false, modemListData: mappedData });
+         }, 3000);
+      } catch (error) {
+         setState({ ...initialState, isLoading: false });
+      }
    };
 
    useEffect(() => {

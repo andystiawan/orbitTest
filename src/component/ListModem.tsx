@@ -113,7 +113,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
                </Text>
                <View style={styles.listHeaderSortContainer}>
                   <TouchableOpacity
-                     testID='select-sort'
+                     testID='header-sort-modem'
                      onPress={() => setstate({ ...state, isSortedOpen: !state.isSortedOpen })}
                      style={styles.listHeaderSortButton}
                   >
@@ -150,6 +150,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
             <View style={styles.itemModemButtonContainer}>
                <TouchableOpacity
                   disabled={item?.quantity < 1}
+                  testID={`sub-btn-quantity${index}`}
                   onPress={() => handleChangeButton({ item, index, type: '-' })}
                   style={{
                      ...styles.itemModemBtnMinus,
@@ -163,7 +164,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
 
                <TextInput
                   style={{ flex: 1, textAlign: 'center' }}
-                  testID='input-quantity'
+                  testID={`input-quantity${index}`}
                   defaultValue="0"
                   value={item?.quantity?.toString()}
                   onChangeText={event => handleChangeTextInputCheckout({ item, index, event })}
@@ -172,6 +173,7 @@ function ListModem({ data, dataFilter, checkout, reset }: list) {
 
                <TouchableOpacity
                   disabled={maxStock}
+                  testID={`add-btn-quantity${index}`}
                   onPress={() => handleChangeButton({ item, index, type: '+' })}
                   style={{
                      ...styles.itemModemBtnPlus,

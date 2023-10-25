@@ -24,17 +24,16 @@ export const SortModem = ({
       animationType="slide"
       transparent={true}
       visible={open}
-      testID='close-modal'
       onRequestClose={onClose}
     >
-      <TouchableOpacity testID='close-sort' onPress={onClose} style={styles.modalContainer}>
+      <TouchableOpacity onPress={onClose} style={styles.modalContainer}>
         <View style={styles.modalContent}>
           {data.map((item: any, index: number) => {
             return (
               <TouchableOpacity
                 key={index}
                 onPress={() => onChangeSort(item.value)}
-                testID='select-sort'
+                testID='select-sort-modem'
                 style={[
                   styles.labelFilter,
                   index == data.length - 1 && { borderBottomWidth: 0 },
@@ -69,14 +68,13 @@ export const SortDevice = ({
   open,
   onClose,
   onChangeSort,
-  sortSelect,
+  sortSelect
 }: sortDevice) => {
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={open}
-      testID='close-sort'
       onRequestClose={onClose}
     >
       <TouchableOpacity onPress={onClose} style={styles.modalContainer}>
@@ -85,7 +83,7 @@ export const SortDevice = ({
             return (
               <TouchableOpacity
                 key={index}
-                testID='select-sort'
+                testID='select-sort-device'
                 onPress={() => onChangeSort(item.value)}
                 style={[
                   styles.labelFilter2,

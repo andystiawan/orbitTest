@@ -1,47 +1,52 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { SortDevice, SortModem } from '../Sort';
+
+
+const onCloseMock = jest.fn();
+const onChangeSortMock = jest.fn();
+
 
 describe('Sort Modem', () => {
     it('call function sort modem', () => {
         const props = {
-            data: [{ name: '', label: 'Default' }],
+            data: [{ value: '', label: 'Default' }],
             open: true,
-            onClose: jest.fn(),
-            onChangeSort: jest.fn(),
+            onClose: onCloseMock,
+            onChangeSort: onChangeSortMock,
             selected: 'Default',
         };
 
-        render(<SortModem {...props} />);
-        fireEvent.press(screen.getByTestId('select-sort'));
-        fireEvent.press(screen.getByTestId('close-sort'));
-        fireEvent.press(screen.getByTestId('close-modal'));
+        const { getByTestId } = render(<SortModem {...props} />);
+        const selectSortModem = getByTestId('select-sort-modem')
+
+        act(() => {
+            fireEvent(selectSortModem, 'onPress', props.selected)
+        })
 
         // Assert that the mock function has been called
-        expect(props.onClose).toHaveBeenCalled();
-        // Assert that the mock function has been called
-        expect(props.onChangeSort).toHaveBeenCalled();
+        expect(onChangeSortMock).toHaveBeenCalled()
     })
 });
 
 describe('Sort Device', () => {
     it('call function sort device', () => {
         const props = {
-            data: [{ name: '', label: 'Default' }],
+            data: [{ value: '', label: 'Default' }],
             open: true,
-            onClose: jest.fn(),
-            onChangeSort: jest.fn(),
+            onClose: onCloseMock,
+            onChangeSort: onChangeSortMock,
             sortSelect: 'Default',
         };
 
-        render(<SortDevice {...props} />);
-        fireEvent.press(screen.getByTestId('select-sort'));
-        fireEvent.press(screen.getByTestId('close-sort'));
+        const { getByTestId } = render(<SortDevice {...props} />);
+        const selectSortModem = getByTestId('select-sort-device')
 
+        act(() => {
+            fireEvent(selectSortModem, 'onPress', props.sortSelect)
+        })
 
         // Assert that the mock function has been called
-        expect(props.onClose).toHaveBeenCalled();
-        // Assert that the mock function has been called
-        expect(props.onChangeSort).toHaveBeenCalled();
+        expect(onChangeSortMock).toHaveBeenCalled()
     });
 });

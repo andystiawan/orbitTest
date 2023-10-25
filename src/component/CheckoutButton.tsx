@@ -26,6 +26,7 @@ const CheckoutButton = (props: any) => {
 
          <TouchableOpacity
             disabled={total < 1}
+            testID='checkout-button'
             onPress={() => onCheckout()}
             style={{
                ...styles.btnCheckoutOnClickButton,
