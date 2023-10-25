@@ -171,7 +171,7 @@ const ListDevice = ({ data, onChangeSort, reset }: list) => {
             </View>
           </View>
           <View style={{ flex: 0, margin: 10, justifyContent: 'center' }}>
-            <TouchableOpacity onPress={() => onChangeSelect(item.id)}>
+            <TouchableOpacity testID={`more-info-button${index}`} onPress={() => onChangeSelect(item.id)}>
               <Image
                 resizeMethod="resize"
                 resizeMode="contain"
@@ -186,7 +186,7 @@ const ListDevice = ({ data, onChangeSort, reset }: list) => {
           </View>
         </View>
         {state.selectedInfo == item.id && (
-          <View style={styles.subContain}>
+          <View testID={`more-info-content${index}`} style={styles.subContain}>
             <View style={styles.subItem}>
               <Text style={{ flex: 1 }}>Usage</Text>
               <Text>

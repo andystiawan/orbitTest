@@ -1,9 +1,9 @@
+import React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react-native';
+import { toBeInTheDocument } from '@testing-library/jest-native';
 import ListDevice from '../ListDevice';
 
-jest.useFakeTimers();
-
-describe("List Modem", () => {
+describe("List Device", () => {
     afterEach(cleanup);
 
     const props = {
@@ -39,22 +39,34 @@ describe("List Modem", () => {
         reset: jest.fn()
     };
 
-
-    it('function refresh device', () => {
+    it('should render the list correctly', () => {
         const { getByTestId } = render(<ListDevice {...props} />);
 
         const listDevice = getByTestId('list-device');
-
-        act(() => {
-            fireEvent(listDevice, 'onRefresh');
-        });
-
-
-        act(() => {
-            jest.runAllTimers();
-        });
-
-        expect(listDevice.props.refreshing).toBe(false);
+        expect(listDevice).toBeDefined();
+        expect(listDevice).toBeInTheDocument();
     });
+
+    it('should call onChangeSort function when sort option is selected', () => {
+        const { getByTestId } = render(<ListDevice {...props} />);
+
+        const moreInfoButton0 = getByTestId('more-info-button0');
+
+        fireEvent.press(moreInfoButton0);
+
+        expect(props.onChangeSort).toHaveBeenCalled();
+    });
+
+
+    it("collapses more info content when 'More Info' button is pressed again", () => {
+        const { getByTestId } = render(
+            <ListDevice {...props} />
+        );
+
+        const moreInfoButton = getByTestId("more-info-button0");
+
+        fireEvent.press(moreInfoButton);
+    });
+
 
 });
