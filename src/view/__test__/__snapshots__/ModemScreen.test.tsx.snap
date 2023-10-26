@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModemScreen renders correctly 1`] = `
+<View
+  style={
+    {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "#D81A3C",
+          "borderBottomLeftRadius": 16,
+          "borderBottomRightRadius": 16,
+          "flexDirection": "row",
+          "height": 133.4,
+          "width": 750,
+        },
+        false,
+      ]
+    }
+  >
+    <Image
+      source={
+        {
+          "testUri": "../../../src/assets/mobile_white.png",
+        }
+      }
+      style={
+        [
+          {
+            "flex": 0,
+            "height": "50%",
+            "objectFit": "scale-down",
+            "resizeMode": "center",
+            "width": "20%",
+          },
+          false,
+        ]
+      }
+    />
+    <View
+      style={
+        {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "white",
+              "fontWeight": "900",
+            },
+            false,
+          ]
+        }
+      >
+        Modem List
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+        "top": "-5%",
+      }
+    }
+  >
+    <Image
+      source={
+        {
+          "testUri": "../../../src/assets/mobile_black.png",
+        }
+      }
+      style={
+        {
+          "height": "20%",
+          "margin": 15,
+          "resizeMode": "contain",
+          "width": "20%",
+        }
+      }
+    />
+    <Text
+      style={
+        {
+          "fontWeight": "900",
+        }
+      }
+    >
+      Loading Modem Data
+    </Text>
+    <Text
+      style={
+        {
+          "fontWeight": "500",
+        }
+      }
+    >
+      Please wait...
+    </Text>
+  </View>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    transparent={true}
+    visible={false}
+  />
+</View>
+`;
