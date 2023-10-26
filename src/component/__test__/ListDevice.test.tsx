@@ -135,10 +135,6 @@ describe("List Device", () => {
         fireEvent(onRefresh, 'onRefresh');
 
         expect(onRefresh.props.refreshing).toBe(true);
-
-        act(() => {
-            jest.advanceTimersByTime(1000);
-        });
         expect(props.reset).toHaveBeenCalled();
 
     });
