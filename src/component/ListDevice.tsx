@@ -247,7 +247,10 @@ const ListDevice = ({ data, onChangeSort, reset }: list) => {
     </View>
   );
 };
+
 export default ListDevice;
+
+
 const styles = StyleSheet.create({
   contentHeader: {
     height: height * 0.1,
