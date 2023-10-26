@@ -104,6 +104,7 @@ const ListDevice = ({ data, onChangeSort, reset }: list) => {
               paddingHorizontal: 5,
             }}>
             <TouchableOpacity
+              testID='header-sort-device'
               onPress={() =>
                 setstate(p => ({
                   ...p,

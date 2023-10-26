@@ -1,26 +1,11 @@
 import React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react-native';
-import { toBeInTheDocument } from '@testing-library/jest-native';
 import ListDevice from '../ListDevice';
 
 describe("List Device", () => {
     afterEach(cleanup);
-
     const props = {
         data: [
-            {
-                id: 11,
-                name: "Mel's Orbit",
-                quota: {
-                    currentUsage: 30000,
-                    maxUsage: 80000,
-                    unit: "MB"
-                },
-                validity: {
-                    value: 30,
-                    unit: "Days"
-                }
-            },
             {
                 id: 23,
                 name: "Kitchen Modem",
@@ -34,29 +19,45 @@ describe("List Device", () => {
                     unit: "Days"
                 }
             },
+            {
+                id: 11,
+                name: "Mel's Orbit",
+                quota: {
+                    currentUsage: 30000,
+                    maxUsage: 80000,
+                    unit: "MB"
+                },
+                validity: {
+                    value: 30,
+                    unit: "Days"
+                }
+            }
         ],
         onChangeSort: jest.fn(),
         reset: jest.fn()
     };
 
     it('should render the list correctly', () => {
-        const { getByTestId } = render(<ListDevice {...props} />);
+        const { getByTestId, getByText } = render(<ListDevice {...props} />);
 
         const listDevice = getByTestId('list-device');
         expect(listDevice).toBeDefined();
-        expect(listDevice).toBeInTheDocument();
+        expect(listDevice.children.length).toBe(props.data.length);
     });
 
-    it('should call onChangeSort function when sort option is selected', () => {
-        const { getByTestId } = render(<ListDevice {...props} />);
+    it('filters the data on sort change', () => {
+        const { getByText, getByTestId } = render(<ListDevice {...props} />);
 
-        const moreInfoButton0 = getByTestId('more-info-button0');
+        const sortButton = getByTestId('header-sort-device');
+        fireEvent.press(sortButton);
 
-        fireEvent.press(moreInfoButton0);
+        const nameOption = getByText('Name');
+        fireEvent.press(nameOption);
 
-        expect(props.onChangeSort).toHaveBeenCalled();
+        expect(props.onChangeSort).toHaveBeenCalledWith([
+            ...props.data
+        ]);
     });
-
 
     it("collapses more info content when 'More Info' button is pressed again", () => {
         const { getByTestId } = render(

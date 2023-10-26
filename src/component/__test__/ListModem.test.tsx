@@ -56,56 +56,11 @@ describe("List Modem", () => {
         ]);
     });
 
-    // it('handleSortChange should sort modems by lowest price', () => {
-    //     const { getByTestId } = render(<ListModem {...props} />);
-    //     const data = [
-    //         {
-    //             id: 3,
-    //             name: "Orbit Min S",
-    //             price: 30000,
-    //             stock: 15,
-    //             quantity: 1
-    //         },
-    //         {
-    //             id: 2,
-    //             name: "Orbit Min",
-    //             price: 300000,
-    //             stock: 5,
-    //             quantity: 2
-    //         },
-    //         {
-    //             id: 2,
-    //             name: "Orbit Min",
-    //             price: 300000,
-    //             stock: 5,
-    //             quantity: 2
-    //         },
-    //     ];
-
-    //     const setstate = jest.fn();
-    //     const dataFilter = jest.fn();
-
-    //     const sortOption = 'lowestPrice';
-
-    //     const sortButton = getByTestId('header-sort-modem');
-    //     fireEvent.press(sortButton);
-
-    //     expect(setstate).toHaveBeenCalledWith({
-    //         isSortedOpen: true,
-    //         selectedSortData: sortOption,
-    //     });
-
-    //     expect(dataFilter).toHaveBeenCalledWith(data);
-    // });
-
     it('clicks on sort button', () => {
         const { getByTestId } = render(<ListModem {...props} />);
         const sortButton = getByTestId('header-sort-modem');
         fireEvent.press(sortButton);
     });
-
-
-
 
 
     it('increments the quantity on add button click', () => {
